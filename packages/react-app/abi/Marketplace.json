@@ -1,0 +1,246 @@
+{
+    "address": "0xBc9c539daC56cAc8d4E4F534da03fB74FB37Cf4c",
+    "abi":  
+    [
+      {
+        "type": "function",
+        "name": "addDisasterImage",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "_imageUrl",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_timestamp",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "createDisasterReport",
+        "inputs": [
+          {
+            "name": "_reporterName",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_email",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_disasterType",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_imgUrl",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_latitude",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_longitude",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_city",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_state",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_date",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_severity",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "_impact",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "deleteDisasterImage",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "imageIndex",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "deleteDisasterReport",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+      },
+      {
+        "type": "function",
+        "name": "getDisasterImages",
+        "inputs": [
+          {
+            "name": "id",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "tuple[]",
+            "internalType": "struct DisasterManagement.DisasterImage[]",
+            "components": [
+              {
+                "name": "reporterId",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "timestamp",
+                "type": "string",
+                "internalType": "string"
+              },
+              {
+                "name": "disasterImageUrl",
+                "type": "string",
+                "internalType": "string"
+              }
+            ]
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getDisasterReport",
+        "inputs": [
+          {
+            "name": "_index",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "",
+            "type": "string",
+            "internalType": "string"
+          }
+        ],
+        "stateMutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getDisasterReportLength",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "stateMutability": "view"
+      }
+    ]
+  }

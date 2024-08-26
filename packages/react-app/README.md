@@ -22,11 +22,14 @@ yarn react-dev
 ## Dependencies
 
 ### Default
+
 - [Next.js](https://nextjs.org/) app framework
 - [TailwindCSS](https://tailwindcss.com/) for UI
 
 ### Optional
+
 > On CLI setup you'll be able to select your favorive front-end web3 library to interact with the Celo blockchain:
+
 - [react-celo](https://www.npmjs.com/package/@celo/react-celo), a React hook library for managing access to Celo with a built-in headless modal system for connecting to your users wallet of choice.
 - [rainbowkit-celo](https://www.npmjs.com/package/@celo/rainbowkit-celo), a plugin to help rainbowkit developers support the CELO protocol faster.
 

@@ -1,3 +1,5 @@
+// This component is used to create report
+
 // Importing the dependencies
 import { useEffect, useState } from "react";
 // Import the useAccount and useBalance hooks to get the user's address and balance
@@ -6,12 +8,12 @@ import { useAccount, useBalance } from "wagmi";
 import { toast } from "react-toastify";
 // Import the useDebounce hook to debounce the input fields
 import { useDebounce } from "use-debounce";
-// Import our custom useContractSend hook to write a product to the marketplace contract
+// Custom hook to write to the contract
 import { useContractSend } from "@/hooks/contracts/useContractWrite";
 // Import the erc20 contract abi to get the cUSD balance
 import erc20Instance from "../abi/erc20.json";
 
-// The CreateReportModal component is used to add a product to the marketplace
+// Component to create a disaster report
 const CreateReportModal = () => {
   // The visible state is used to toggle the modal
   const [visible, setVisible] = useState(false);
@@ -87,43 +89,41 @@ const CreateReportModal = () => {
     debouncedImpact,
   ]);
 
-  // Define function that handles the creation of a product through the marketplace contract
+  // Function to handle report creation logic
   const handleCreateReport = async () => {
     if (!createReport) {
-      throw "Failed to create product";
+      throw "Failed to create report";
     }
     setLoading("Creating...");
     if (!isComplete) throw new Error("Please fill all fields");
-    // Create the product by calling the writeProduct function on the marketplace contract
+    // Call smart contract function to create report
     const createReportTx = await createReport();
     setLoading("Waiting for confirmation...");
     // Wait for the transaction to be created
     await createReportTx.wait();
-    // Close the modal and clear the input fields after the product is added to the marketplace
-    setVisible(false);
-    clearForm();
+    setVisible(false); // Close the modal
+    clearForm(); // Clear the form fields
   };
 
-  // Define function that handles the creation of a product, if a user submits the product form
-  const addProduct = async (e: any) => {
+  // Function to handle form submission
+  const addReport = async (e: any) => {
     e.preventDefault();
     try {
-      // Display a notification while the product is being added to the marketplace
       await toast.promise(handleCreateReport(), {
-        pending: "Creating product...",
-        success: "Product created successfully",
-        error: "Something went wrong. Try again.",
+        pending: "Creating Report...", // Show pending toast message
+        success: "Report created successfully", // Show success toast message
+        error: "Something went wrong. Try again.", // Show error toast message
       });
       // Display an error message if something goes wrong
     } catch (e: any) {
       console.log({ e });
       toast.error(e?.message || "Something went wrong. Try again.");
-      // Clear the loading state after the product is added to the marketplace
     } finally {
       setLoading("");
     }
   };
 
+  // Function to get the user's current location coordinates
   const getCoordinates = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -172,14 +172,14 @@ const CreateReportModal = () => {
           Create Report
         </button>
 
-        {/* Modal */}
+        {/* Modal for creating a report */}
         {visible && (
           <div
             className="fixed z-40 overflow-y-auto top-0 w-full left-0"
             id="modal"
           >
-            {/* Form with input fields for the product, that triggers the addProduct function on submit */}
-            <form onSubmit={addProduct}>
+            {/* Form for creating a disaster report */}
+            <form onSubmit={addReport}>
               <div className="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div className="fixed inset-0 transition-opacity">
                   <div className="absolute inset-0 bg-gray-900 opacity-75" />
@@ -200,7 +200,7 @@ const CreateReportModal = () => {
                     </h2>
                   </div>
 
-                  {/* Modal Body */}
+                  {/* Modal Body with input fields */}
                   <div
                     className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto"
                     style={{ maxHeight: "400px" }}
@@ -308,14 +308,14 @@ const CreateReportModal = () => {
                     </select>
 
                     <label>Impact</label>
-                    <input
+                    <textarea
                       onChange={(e) => setImpact(e.target.value)}
                       required
-                      type="textarea"
                       className="w-full bg-gray-100 p-2 mt-2 mb-3"
                     />
                   </div>
-                  {/* Button to close the modal */}
+
+                  {/* Modal Footer with submit button */}
                   <div className="bg-gray-200 px-4 py-3 text-right">
                     <button
                       type="button"

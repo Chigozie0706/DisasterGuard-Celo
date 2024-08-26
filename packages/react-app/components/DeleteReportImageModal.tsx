@@ -1,80 +1,85 @@
-// This component is used to add a product to the marketplace and show the user's cUSD balance
+// This component is used to delete an image from a disaster report and display the user's cUSD balance
 
 // Importing the dependencies
 import { useEffect, useState } from "react";
-// import ethers to convert the product price to wei
-import { ethers } from "ethers";
 // Import the useAccount and useBalance hooks to get the user's address and balance
 import { useAccount, useBalance } from "wagmi";
 // Import the toast library to display notifications
 import { toast } from "react-toastify";
 // Import the useDebounce hook to debounce the input fields
 import { useDebounce } from "use-debounce";
-// Import our custom useContractSend hook to write a product to the marketplace contract
+// Import our custom useContractSend hook to interact with the smart contract
 import { useContractSend } from "@/hooks/contracts/useContractWrite";
-// Import the erc20 contract abi to get the cUSD balance
+// Import the erc20 contract ABI to get the cUSD balance
 import erc20Instance from "../abi/erc20.json";
 
+// Define the component props interface
 interface Props {
-  id: string;
-  imageIndex: number;
+  id: string; // The ID of the disaster report
+  imageIndex: number; // The index of the image to delete
 }
 
-// The DeleteReportImageModal component is used to add a product to the marketplace
+// The DeleteReportImageModal component is used to delete an image from a disaster report
 const DeleteReportImageModal = ({ id, imageIndex }: Props) => {
-  // The visible state is used to toggle the modal
+  // State to toggle the modal visibility
   const [visible, setVisible] = useState(false);
 
-  // The loading state is used to display a loading message
+  // State to display a loading message during the deletion process
   const [loading, setLoading] = useState("");
-  // The displayBalance state is used to store the cUSD balance of the user
+
+  // State to display the user's cUSD balance
   const [displayBalance, setDisplayBalance] = useState(false);
+
+  // State to disable the delete button during loading
   const [disable, setDisable] = useState(false);
 
-  // Get the user's address and balance
+  // Get the user's address and balance using Wagmi hooks
   const { address, isConnected } = useAccount();
   const { data: cusdBalance } = useBalance({
     address,
     token: erc20Instance.address as `0x${string}`,
   });
 
+  // Debounce the id and imageIndex to avoid unnecessary contract calls
   const [debouncedId] = useDebounce(id, 500);
   const [debouncedImageIndex] = useDebounce(imageIndex, 500);
 
+  // Get the contract function for deleting an image from a disaster report
   const { writeAsync: deleteDisasterImage } = useContractSend(
     "deleteDisasterImage",
     [debouncedId, debouncedImageIndex]
   );
 
-  // Function to delete an image
+  // Function to handle the image deletion process
   const handleDeleteImage = async () => {
     if (!deleteDisasterImage) {
-      throw "Failed to delete image";
+      throw "Failed to delete image"; // Throw an error if the contract function is unavailable
     }
     setLoading("Deleting...");
-    const deleteTx = await deleteDisasterImage();
+    const deleteTx = await deleteDisasterImage(); // Send the transaction to delete the image
     setLoading("Waiting for confirmation...");
-    await deleteTx.wait();
-    setVisible(false);
+    await deleteTx.wait(); // Wait for the transaction to be confirmed
+    setVisible(false); // Close the modal after deletion
   };
 
+  // Function to handle the delete image action when the user submits the delete request
   const deleteDisasterImageById = async (e: any) => {
     e.preventDefault();
     try {
       await toast.promise(handleDeleteImage(), {
-        pending: "Deleting image...",
-        success: "Image deleted successfully",
-        error: "Something went wrong. Try again.",
+        pending: "Deleting image...", // Display a pending notification
+        success: "Image deleted successfully", // Display a success notification
+        error: "Something went wrong. Try again.", // Display an error notification
       });
     } catch (e: any) {
       console.log({ e });
-      toast.error(e?.message || "Something went wrong. Try again.");
+      toast.error(e?.message || "Something went wrong. Try again."); // Handle errors
     } finally {
-      setLoading("");
+      setLoading(""); // Clear the loading state after deletion
     }
   };
 
-  // If the user is connected and has a balance, display the balance
+  // Use an effect to update the displayBalance state based on the user's connection and balance
   useEffect(() => {
     if (isConnected && cusdBalance) {
       setDisplayBalance(true);
@@ -93,12 +98,13 @@ const DeleteReportImageModal = ({ id, imageIndex }: Props) => {
           className="absolute top-2 right-2 w-8 h-8 cursor-pointer hover:opacity-80"
           onClick={(e) => {
             setVisible(true);
-            deleteDisasterImageById(e);
+            deleteDisasterImageById(e); // Trigger the delete action when the delete icon is clicked
           }}
           data-bs-toggle="modal"
           data-bs-target="#exampleModalCenter"
         />
 
+        {/* Render the modal if visible */}
         {visible && (
           <div
             className="fixed z-40 overflow-y-auto top-0 w-full left-0"
